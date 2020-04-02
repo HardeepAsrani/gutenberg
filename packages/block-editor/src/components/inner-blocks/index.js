@@ -45,6 +45,7 @@ class InnerBlocks extends Component {
 			__experimentalBlocks,
 			replaceInnerBlocks,
 			__unstableMarkNextChangeAsNotPersistent,
+			setIsController,
 		} = this.props;
 		const { innerBlocks } = block;
 		// Only synchronize innerBlocks with template if innerBlocks are empty or a locking all exists directly on the block.
@@ -62,6 +63,7 @@ class InnerBlocks extends Component {
 		if ( __experimentalBlocks ) {
 			__unstableMarkNextChangeAsNotPersistent();
 			replaceInnerBlocks( __experimentalBlocks, false );
+			setIsController();
 		}
 	}
 
@@ -217,6 +219,7 @@ const ComposedInnerBlocks = compose( [
 			replaceInnerBlocks,
 			__unstableMarkNextChangeAsNotPersistent,
 			updateBlockListSettings,
+			setHasControlledInnerBlocks,
 		} = dispatch( 'core/block-editor' );
 		const {
 			block,
@@ -239,6 +242,9 @@ const ComposedInnerBlocks = compose( [
 			__unstableMarkNextChangeAsNotPersistent,
 			updateNestedSettings( settings ) {
 				dispatch( updateBlockListSettings( clientId, settings ) );
+			},
+			setIsController( isController = true ) {
+				setHasControlledInnerBlocks( clientId, isController );
 			},
 		};
 	} ),
